@@ -1,18 +1,16 @@
 package de.akesting;
 
 import com.google.common.base.Preconditions;
-import org.eclipse.collections.impl.map.mutable.UnifiedMap;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
 
 class FcdReader {
 
-    private final Map<Long, Trajectory> trajectories = new UnifiedMap<>();
+    // linked map to keep order of primary data which is essentially time-sorted
+    private final Map<Long, Trajectory> trajectories = new LinkedHashMap<>();
 
     private final DsegMapping dsegMapping;
 

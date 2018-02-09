@@ -1,5 +1,7 @@
 package de.akesting;
 
+import org.joda.time.DateTime;
+
 class TrajectoryDataPoint {
 
     /**
@@ -8,7 +10,7 @@ class TrajectoryDataPoint {
     private final float position;
 
     /**
-     * in utc
+     * milliseconds, utc
      */
     private final long timestamp;
 
@@ -37,7 +39,9 @@ class TrajectoryDataPoint {
 
     public String toLine(char separator, String lineEnding) {
         StringBuilder sb = new StringBuilder();
-        sb.append(timestamp).append(separator);
+        sb.append(timestamp / 1000L).append(separator);  // from millis to seconds
+        DateTime dateTime = new DateTime(timestamp);
+        sb.append(dateTime.getSecondOfDay()).append(separator);  // from millis to seconds
         sb.append(position).append(separator);
         sb.append(speedKph);
         sb.append(lineEnding);
