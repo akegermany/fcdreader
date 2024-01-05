@@ -1,11 +1,18 @@
 package de.akesting;
 
-import com.google.common.base.Preconditions;
-
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
+
+import com.google.common.base.Preconditions;
 
 class FcdReader {
 
@@ -59,9 +66,6 @@ class FcdReader {
         trajectory.add(dataPoint);
     }
 
-    /**
-     * @return immutable
-     */
     public Map<Long, Trajectory> getTrajectories() {
         return Collections.unmodifiableMap(trajectories);
     }

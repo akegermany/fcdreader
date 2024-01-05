@@ -1,14 +1,14 @@
 package de.akesting;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 class DsegMapping {
 
@@ -20,7 +20,7 @@ class DsegMapping {
         }
     }
 
-    private final void readData(File file) throws IOException {
+    private void readData(File file) throws IOException {
         List<String> lines = Files.readLines(file, Charsets.UTF_8);
         final String separator = ",";
 
@@ -30,7 +30,7 @@ class DsegMapping {
             // System.out.println(Arrays.toString(split));
             if (split.length != 6) {
                 System.err.printf("unexpected columns: %s", Arrays.toString(split));
-            } else
+            } else {
                 try {
                     Long dsegId = Long.parseLong(split[0]);
                     dsegs.put(dsegId, position);
@@ -38,6 +38,7 @@ class DsegMapping {
                 } catch (NumberFormatException e) {
                     System.out.println("ignore not-parsable line " + line);
                 }
+            }
         }
         System.out.printf("read %d dsegs, last position is %.1f %n", dsegs.size(), position);
 

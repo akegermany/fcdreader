@@ -1,13 +1,18 @@
 package de.akesting;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Stopwatch;
-
-import javax.annotation.Nullable;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPOutputStream;
+
+import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
 
 class TrajectoryExporter {
 

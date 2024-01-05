@@ -4,19 +4,13 @@ import org.joda.time.DateTime;
 
 class TrajectoryDataPoint {
 
-    /**
-     * in meter, absolute position along road stretch
-     */
+    /** in meter, absolute position along road stretch */
     private final float position;
 
-    /**
-     * milliseconds, utc
-     */
+    /** milliseconds, utc */
     private final long timestamp;
 
-    /**
-     * in km/h
-     */
+    /** in km/h */
     private final float speedKph;
 
     public TrajectoryDataPoint(float position, long timestamp, float speedKph) {

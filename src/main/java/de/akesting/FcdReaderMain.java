@@ -1,15 +1,14 @@
 package de.akesting;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Stopwatch;
-import com.google.common.collect.Lists;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class FcdReaderMain {
+import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
+import com.google.common.collect.Lists;
 
+public class FcdReaderMain {
 
     public static void main(String[] args) throws IOException {
         System.out.println("args: " + Arrays.toString(args));
@@ -37,7 +36,6 @@ public class FcdReaderMain {
      */
     private static String createExportFile(String name) {
         return name + ".pos";
-
     }
 
 }
