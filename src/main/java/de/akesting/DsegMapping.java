@@ -2,12 +2,12 @@ package de.akesting;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 class DsegMapping {
@@ -21,7 +21,7 @@ class DsegMapping {
     }
 
     private void readData(File file) throws IOException {
-        List<String> lines = Files.readLines(file, Charsets.UTF_8);
+        List<String> lines = Files.readLines(file, StandardCharsets.UTF_8);
         final String separator = ",";
 
         float position = 0;

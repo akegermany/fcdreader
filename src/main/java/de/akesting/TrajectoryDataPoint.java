@@ -1,7 +1,5 @@
 package de.akesting;
 
-import org.joda.time.DateTime;
-
 class TrajectoryDataPoint {
 
     /** in meter, absolute position along road stretch */
@@ -23,22 +21,16 @@ class TrajectoryDataPoint {
         return position;
     }
 
-    public long timestamp() {
+    public long timestampEpochMillis() {
         return timestamp;
     }
 
-    public float speedKmp() {
+    public long timestampEpochSeconds() {
+        return timestamp / 1000L;
+    }
+
+    public float speedKph() {
         return speedKph;
     }
 
-    public String toLine(char separator, String lineEnding) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(timestamp / 1000L).append(separator);  // from millis to seconds
-        DateTime dateTime = new DateTime(timestamp);
-        sb.append(dateTime.getSecondOfDay()).append(separator);  // from millis to seconds
-        sb.append(position).append(separator);
-        sb.append(speedKph);
-        sb.append(lineEnding);
-        return sb.toString();
-    }
 }

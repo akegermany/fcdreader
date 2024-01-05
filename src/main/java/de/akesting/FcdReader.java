@@ -23,12 +23,14 @@ class FcdReader {
 
     public FcdReader(File fcdFile, DsegMapping dsegMapping) throws IOException {
         this.dsegMapping = Preconditions.checkNotNull(dsegMapping);
-        readData(fcdFile);
+        double maxSpeedKmh = 200;
+        readData(fcdFile, maxSpeedKmh);
     }
 
-    private final void readData(File file) throws IOException {
+    private void readData(File file, double maxSpeedKmh) throws IOException {
         AtomicInteger lineCount = new AtomicInteger();
 
+        AtomicInteger countInvalidSpeeds = new AtomicInteger();
         try (BufferedReader in = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(file))))) {
             // System.out.println(Arrays.toString(split));
             in.lines().map(it -> it.split(",")).forEach(split -> {
@@ -45,8 +47,13 @@ class FcdReader {
                         long timestamp = Long.parseLong(split[col++]);
                         float speedKph = Float.parseFloat(split[col++]);
                         float dsegStartPosition = dsegMapping.getPosition(dsegId);
-                        TrajectoryDataPoint dataPoint = new TrajectoryDataPoint(dsegStartPosition + offsetOnDseg, timestamp, speedKph);
-                        addOrCreate(vehicleId, dataPoint);
+                        if (speedKph < maxSpeedKmh) {
+                            TrajectoryDataPoint dataPoint = new TrajectoryDataPoint(dsegStartPosition + offsetOnDseg, timestamp, speedKph);
+                            addOrCreate(vehicleId, dataPoint);
+                        } else {
+                            countInvalidSpeeds.incrementAndGet();
+                            System.out.printf("ignore speed %f > %f km/h, count=%d%n", speedKph, maxSpeedKmh, countInvalidSpeeds.get());
+                        }
                     } catch (NumberFormatException e) {
                         System.out.println("ignore not-parsable line " + Arrays.toString(split));
                     }
@@ -60,7 +67,7 @@ class FcdReader {
     private void addOrCreate(Long vehicleId, TrajectoryDataPoint dataPoint) {
         Trajectory trajectory = trajectories.get(vehicleId);
         if (trajectory == null) {
-            trajectory = new Trajectory(vehicleId);
+            trajectory = new Trajectory();
             trajectories.put(vehicleId, trajectory);
         }
         trajectory.add(dataPoint);

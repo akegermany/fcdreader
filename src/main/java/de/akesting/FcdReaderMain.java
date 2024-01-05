@@ -3,10 +3,10 @@ package de.akesting;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
-import com.google.common.collect.Lists;
 
 public class FcdReaderMain {
 
@@ -18,7 +18,7 @@ public class FcdReaderMain {
         File dsegFile1 = new File(sourcePath, args[1]);
         File dsegFile2 = new File(sourcePath, args[2]);
 
-        DsegMapping dsegMapping = new DsegMapping(Lists.newArrayList(dsegFile1, dsegFile2));
+        DsegMapping dsegMapping = new DsegMapping(List.of(dsegFile1, dsegFile2));
 
         Stopwatch stopwatch = Stopwatch.createStarted();
         String fcdFileName = args[3];
@@ -28,14 +28,11 @@ public class FcdReaderMain {
         System.out.printf("read %d trajectories in %s %n", fcdReader.getTrajectories().size(), stopwatch);
 
         File fcdExportFile = new File(sourcePath, createExportFile(fcdFileName));
-        TrajectoryExporter exporter = new TrajectoryExporter(fcdExportFile, fcdReader.getTrajectories());
+        TrajectoryExporter.writeFile(fcdExportFile, fcdReader.getTrajectories().values());
     }
 
-    /**
-     * creates output file. E.g. from 2017-09-01.csv.gz to pos_2017-09-01.csv.gz
-     */
     private static String createExportFile(String name) {
-        return name + ".pos";
+        return "pos-" + name;
     }
 
 }
